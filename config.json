@@ -1,0 +1,7 @@
+{
+    "harvest": true,
+    "quest": true,
+    "game_coin_flip": true,
+    "delay_loop": 3000,
+    "delay_account_switch": 10
+}
