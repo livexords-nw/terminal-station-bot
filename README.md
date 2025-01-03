@@ -19,9 +19,11 @@ With this bot, you can save time and achieve optimal results without manual inte
 
 ---
 
-## 🌟 **Version v1.0.0**
+## 🌟 **Version v1.0.1**
 
-This is the initial version of the Terminal Station Bot.
+### **Changes in Version v1.0.1**
+
+- **Bug Fixes**: Resolved issues in the **Flipper Game** to improve functionality and stability.
 
 ---
 

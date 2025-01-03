@@ -5,6 +5,7 @@ from colorama import Fore
 import requests
 import random
 
+
 class terminal:
     BASE_URL = "https://app.0xterminal.game/api/"
     HEADERS = {
@@ -21,7 +22,7 @@ class terminal:
         "sec-fetch-mode": "cors",
         "sec-fetch-site": "same-origin",
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0",
-        "if-none-match": 'W/"21a-y+T53dCeOf899eNKEl1z3T7wCec":' 
+        "if-none-match": 'W/"21a-y+T53dCeOf899eNKEl1z3T7wCec":',
     }
 
     def __init__(self):
@@ -36,7 +37,14 @@ class terminal:
         self.log("📢 Channel: t.me/livexordsscript\n", Fore.CYAN)
 
     def log(self, message, color=Fore.RESET):
-            print(Fore.LIGHTBLACK_EX + datetime.now().strftime("[%Y:%m:%d ~ %H:%M:%S] |") + " " + color + message + Fore.RESET)
+        print(
+            Fore.LIGHTBLACK_EX
+            + datetime.now().strftime("[%Y:%m:%d ~ %H:%M:%S] |")
+            + " "
+            + color
+            + message
+            + Fore.RESET
+        )
 
     def load_config(self) -> dict:
         """Loads configuration from config.json."""
@@ -113,29 +121,48 @@ class terminal:
             terminal_balance = stats.get("terminalBalance", 0)
             next_harvest = stats.get("nextHarvestTimestamp", "Unknown")
             total_quests = stats.get("totalCompletedQuests", 0)
-            
+
             self.token = token
 
             self.log("\u2705 Login successful!", Fore.GREEN)
             self.log(f"\U0001F464 Telegram Username: {username}", Fore.LIGHTGREEN_EX)
             self.log(f"\U0001F4F2 Telegram ID: {telegram_id}", Fore.CYAN)
             self.log(f"\U0001FA99 TON Balance: {ton_balance}", Fore.LIGHTBLUE_EX)
-            self.log(f"\U0001FA9A Terminal Balance: {terminal_balance}", Fore.LIGHTMAGENTA_EX)
-            self.log(f"\U0001F4C5 Next Harvest Timestamp: {next_harvest}", Fore.LIGHTCYAN_EX)
-            self.log(f"\U0001F4DA Total Completed Quests: {total_quests}", Fore.LIGHTYELLOW_EX)
+            self.log(
+                f"\U0001FA9A Terminal Balance: {terminal_balance}", Fore.LIGHTMAGENTA_EX
+            )
+            self.log(
+                f"\U0001F4C5 Next Harvest Timestamp: {next_harvest}", Fore.LIGHTCYAN_EX
+            )
+            self.log(
+                f"\U0001F4DA Total Completed Quests: {total_quests}",
+                Fore.LIGHTYELLOW_EX,
+            )
 
         except requests.exceptions.RequestException as e:
             self.log(f"\u274C Failed to send login request: {e}", Fore.RED)
-            self.log(f"Response: {getattr(response, 'text', 'No response text available')}", Fore.YELLOW)
+            self.log(
+                f"Response: {getattr(response, 'text', 'No response text available')}",
+                Fore.YELLOW,
+            )
         except ValueError as e:
             self.log(f"\u274C Data error (possible JSON issue): {e}", Fore.RED)
-            self.log(f"Response: {getattr(response, 'text', 'No response text available')}", Fore.YELLOW)
+            self.log(
+                f"Response: {getattr(response, 'text', 'No response text available')}",
+                Fore.YELLOW,
+            )
         except KeyError as e:
             self.log(f"\u274C Key error: {e}", Fore.RED)
-            self.log(f"Response: {getattr(response, 'text', 'No response text available')}", Fore.YELLOW)
+            self.log(
+                f"Response: {getattr(response, 'text', 'No response text available')}",
+                Fore.YELLOW,
+            )
         except Exception as e:
             self.log(f"\u274C Unexpected error: {e}", Fore.RED)
-            self.log(f"Response: {getattr(response, 'text', 'No response text available')}", Fore.YELLOW)
+            self.log(
+                f"Response: {getattr(response, 'text', 'No response text available')}",
+                Fore.YELLOW,
+            )
 
     def harvest(self) -> None:
         """Harvest rewards from the server."""
@@ -150,7 +177,10 @@ class terminal:
             if response.status_code == 201:
                 self.log("\u2705 Harvest successful!", Fore.GREEN)
             else:
-                self.log(f"\u274C Harvest failed with status code: {response.status_code}", Fore.RED)
+                self.log(
+                    f"\u274C Harvest failed with status code: {response.status_code}",
+                    Fore.RED,
+                )
                 self.log(f"Response: {response.text}", Fore.YELLOW)
                 return
 
@@ -168,9 +198,13 @@ class terminal:
             minutes, seconds = divmod(remainder, 60)
 
             # Log details
-            self.log(f"\U0001FA9A Claimed Terminal: {claimed_terminal}", Fore.LIGHTBLUE_EX)
+            self.log(
+                f"\U0001FA9A Claimed Terminal: {claimed_terminal}", Fore.LIGHTBLUE_EX
+            )
             self.log(f"\U0001FA99 Claimed TON: {claimed_ton}", Fore.LIGHTCYAN_EX)
-            self.log(f"\U0001FA9A Total Terminal: {terminal_total}", Fore.LIGHTMAGENTA_EX)
+            self.log(
+                f"\U0001FA9A Total Terminal: {terminal_total}", Fore.LIGHTMAGENTA_EX
+            )
             self.log(f"\U0001FA99 Total TON: {ton_total}", Fore.LIGHTGREEN_EX)
             self.log(
                 f"\U0001F552 Next harvest available in: {hours}h {minutes}m {seconds}s",
@@ -179,16 +213,28 @@ class terminal:
 
         except requests.exceptions.RequestException as e:
             self.log(f"\u274C Failed to send harvest request: {e}", Fore.RED)
-            self.log(f"Response: {getattr(response, 'text', 'No response text available')}", Fore.YELLOW)
+            self.log(
+                f"Response: {getattr(response, 'text', 'No response text available')}",
+                Fore.YELLOW,
+            )
         except ValueError as e:
             self.log(f"\u274C Data error (possible JSON issue): {e}", Fore.RED)
-            self.log(f"Response: {getattr(response, 'text', 'No response text available')}", Fore.YELLOW)
+            self.log(
+                f"Response: {getattr(response, 'text', 'No response text available')}",
+                Fore.YELLOW,
+            )
         except KeyError as e:
             self.log(f"\u274C Key error: {e}", Fore.RED)
-            self.log(f"Response: {getattr(response, 'text', 'No response text available')}", Fore.YELLOW)
+            self.log(
+                f"Response: {getattr(response, 'text', 'No response text available')}",
+                Fore.YELLOW,
+            )
         except Exception as e:
             self.log(f"\u274C Unexpected error: {e}", Fore.RED)
-            self.log(f"Response: {getattr(response, 'text', 'No response text available')}", Fore.YELLOW)
+            self.log(
+                f"Response: {getattr(response, 'text', 'No response text available')}",
+                Fore.YELLOW,
+            )
 
     def quest(self) -> None:
         """Fetch and review quests from the server."""
@@ -201,7 +247,10 @@ class terminal:
             response = requests.get(req_url_quests, headers=headers)
 
             if response.status_code != 200:
-                self.log(f"\u274C Failed to fetch quests: Status code {response.status_code}", Fore.RED)
+                self.log(
+                    f"\u274C Failed to fetch quests: Status code {response.status_code}",
+                    Fore.RED,
+                )
                 self.log(f"Response: {response.text}", Fore.YELLOW)
                 return
 
@@ -222,40 +271,71 @@ class terminal:
                 quest_reward = quest.get("reward", 0)
                 quest_link = quest.get("actionLink", "No Link")
 
-                self.log(f"\U0001F539 Quest: {quest_name} (ID: {quest_id})", Fore.LIGHTCYAN_EX)
-                self.log(f"  \U0001F4B8 Reward: {quest_reward} | Status: {quest_status}", Fore.LIGHTMAGENTA_EX)
+                self.log(
+                    f"\U0001F539 Quest: {quest_name} (ID: {quest_id})",
+                    Fore.LIGHTCYAN_EX,
+                )
+                self.log(
+                    f"  \U0001F4B8 Reward: {quest_reward} | Status: {quest_status}",
+                    Fore.LIGHTMAGENTA_EX,
+                )
                 self.log(f"  \U0001F517 Action Link: {quest_link}", Fore.LIGHTBLUE_EX)
 
                 if quest_status != "OPENED":
-                    self.log(f"  \U0001F6AB Skipping quest {quest_id} - Not opened.", Fore.YELLOW)
+                    self.log(
+                        f"  \U0001F6AB Skipping quest {quest_id} - Not opened.",
+                        Fore.YELLOW,
+                    )
                     continue
 
                 # Submit quest for review
                 req_url_review = f"{self.BASE_URL}quest/review"
                 payload = {"questId": quest_id}
-                self.log(f"\U0001F4E1 Submitting quest {quest_id} for review...", Fore.CYAN)
+                self.log(
+                    f"\U0001F4E1 Submitting quest {quest_id} for review...", Fore.CYAN
+                )
 
-                review_response = requests.post(req_url_review, headers=headers, json=payload)
+                review_response = requests.post(
+                    req_url_review, headers=headers, json=payload
+                )
 
                 if review_response.status_code == 201:
-                    self.log(f"\U0001F4AA Quest {quest_id} reviewed successfully!", Fore.GREEN)
+                    self.log(
+                        f"\U0001F4AA Quest {quest_id} reviewed successfully!",
+                        Fore.GREEN,
+                    )
                 else:
-                    self.log(f"\u274C Failed to review quest {quest_id}: Status code {review_response.status_code}", Fore.RED)
+                    self.log(
+                        f"\u274C Failed to review quest {quest_id}: Status code {review_response.status_code}",
+                        Fore.RED,
+                    )
                     self.log(f"Response: {review_response.text}", Fore.YELLOW)
                     continue
 
         except requests.exceptions.RequestException as e:
             self.log(f"\u274C Failed to process quests: {e}", Fore.RED)
-            self.log(f"Response: {getattr(response, 'text', 'No response text available')}", Fore.YELLOW)
+            self.log(
+                f"Response: {getattr(response, 'text', 'No response text available')}",
+                Fore.YELLOW,
+            )
         except ValueError as e:
             self.log(f"\u274C Data error (possible JSON issue): {e}", Fore.RED)
-            self.log(f"Response: {getattr(response, 'text', 'No response text available')}", Fore.YELLOW)
+            self.log(
+                f"Response: {getattr(response, 'text', 'No response text available')}",
+                Fore.YELLOW,
+            )
         except KeyError as e:
             self.log(f"\u274C Key error: {e}", Fore.RED)
-            self.log(f"Response: {getattr(response, 'text', 'No response text available')}", Fore.YELLOW)
+            self.log(
+                f"Response: {getattr(response, 'text', 'No response text available')}",
+                Fore.YELLOW,
+            )
         except Exception as e:
             self.log(f"\u274C Unexpected error: {e}", Fore.RED)
-            self.log(f"Response: {getattr(response, 'text', 'No response text available')}", Fore.YELLOW)
+            self.log(
+                f"Response: {getattr(response, 'text', 'No response text available')}",
+                Fore.YELLOW,
+            )
 
     def game_coin_flip(self) -> None:
         """Play the Coin Flip game, analyze flip history to predict outcomes, or randomly guess if no history is available."""
@@ -268,7 +348,10 @@ class terminal:
             response = requests.get(stats_url, headers=headers)
 
             if response.status_code != 200:
-                self.log(f"\u274C Failed to fetch stats: Status code {response.status_code}", Fore.RED)
+                self.log(
+                    f"\u274C Failed to fetch stats: Status code {response.status_code}",
+                    Fore.RED,
+                )
                 self.log(f"Response: {response.text}", Fore.YELLOW)
                 return
 
@@ -282,8 +365,11 @@ class terminal:
             self.log(f"\U0001F4B0 Bet Range: {min_bet} - {max_bet}", Fore.LIGHTCYAN_EX)
 
             if not flip_history:
-                self.log("\U0001F614 No flip history available, guessing randomly.", Fore.YELLOW)
-            
+                self.log(
+                    "\U0001F614 No flip history available, guessing randomly.",
+                    Fore.YELLOW,
+                )
+
             # Analyze flip patterns
             pattern = {}
             for flip in flip_history:
@@ -295,42 +381,68 @@ class terminal:
 
             self.log("\U0001F52E Analyzing flip patterns...", Fore.BLUE)
             for session, flips in pattern.items():
-                self.log(f"  Session {session}: {', '.join(flips)}", Fore.LIGHTMAGENTA_EX)
+                self.log(
+                    f"  Session {session}: {', '.join(flips)}", Fore.LIGHTMAGENTA_EX
+                )
 
             # Function to predict guess
             def predict_guess(flip_history: list) -> str:
                 if not flip_history:
-                    # Random guess if no history
                     return random.choice(["HEADS", "TAILS"])
-                
-                # Count occurrences of "HEADS" and "TAILS"
-                tails_count = sum(1 for flip in flip_history if flip.get("side") == "TAILS")
-                heads_count = sum(1 for flip in flip_history if flip.get("side") == "HEADS")
-                
-                # Predict the less common side in the recent session
+                tails_count = sum(
+                    1 for flip in flip_history if flip.get("side") == "TAILS"
+                )
+                heads_count = sum(
+                    1 for flip in flip_history if flip.get("side") == "HEADS"
+                )
                 if tails_count > heads_count:
                     return "HEADS"
                 elif heads_count > tails_count:
                     return "TAILS"
                 else:
-                    # Random if they are equal
                     return random.choice(["HEADS", "TAILS"])
 
             # Play the game
             bet_url = f"{self.BASE_URL}game/coinflip/bet"
+            flip_url = f"{self.BASE_URL}game/coinflip/flip"
             while terminal_games_left > 0:
                 guess = predict_guess(flip_history)
-                payload = {
-                    "token": "TERMINAL",
-                    "bet": min_bet,
-                    "guess": guess
-                }
+                payload = {"token": "TERMINAL", "bet": min_bet, "guess": guess}
 
                 self.log(f"\U0001F3B2 Guessing: {guess}...", Fore.CYAN)
                 bet_response = requests.post(bet_url, headers=headers, json=payload)
 
-                if bet_response.status_code != 201:
-                    self.log(f"\u274C Failed to play: Status code {bet_response.status_code}", Fore.RED)
+                if bet_response.status_code == 400:
+                    error_message = bet_response.json().get("message", "")
+                    if "active coinflip session" in error_message:
+                        self.log(
+                            "\U0001F6A7 Active session detected. Resolving it...",
+                            Fore.YELLOW,
+                        )
+                        resolve_payload = {"guess": "HEADS"}
+                        flip_response = requests.post(
+                            flip_url, headers=headers, json=resolve_payload
+                        )
+
+                        if flip_response.status_code == 201:
+                            self.log(
+                                "\U0001F389 Active session resolved successfully.",
+                                Fore.GREEN,
+                            )
+                            continue
+                        else:
+                            self.log(
+                                f"\u274C Failed to resolve session: {flip_response.status_code}",
+                                Fore.RED,
+                            )
+                            self.log(f"Response: {flip_response.text}", Fore.YELLOW)
+                            return
+
+                elif bet_response.status_code != 201:
+                    self.log(
+                        f"\u274C Failed to play: Status code {bet_response.status_code}",
+                        Fore.RED,
+                    )
                     self.log(f"Response: {bet_response.text}", Fore.YELLOW)
                     break
 
@@ -341,27 +453,34 @@ class terminal:
                 reward = session.get("reward", "0")
                 next_reward = session.get("nextReward", "0")
 
-                self.log(f"\U0001F4A1 Result: {status}", Fore.GREEN if status == "WIN" else Fore.RED)
+                self.log(
+                    f"\U0001F4A1 Result: {status}",
+                    Fore.GREEN if status == "WIN" else Fore.RED,
+                )
                 self.log(f"  Flips: {', '.join(flips)}", Fore.LIGHTBLUE_EX)
-                self.log(f"  Reward: {reward} | Next Reward: {next_reward}", Fore.LIGHTCYAN_EX)
+                self.log(
+                    f"  Reward: {reward} | Next Reward: {next_reward}",
+                    Fore.LIGHTCYAN_EX,
+                )
 
                 if status == "WIN":
                     self.log("\U0001F389 You won this round!", Fore.GREEN)
                 else:
                     self.log("\U0001F614 Better luck next time.", Fore.YELLOW)
 
-                # Update history with the new flip
                 for flip in flips:
-                    flip_history.append({"side": flip, "sessionId": terminal_games_left})
-                
+                    flip_history.append(
+                        {"side": flip, "sessionId": terminal_games_left}
+                    )
+
                 terminal_games_left -= 1
                 self.log(f"\U0001F4AA Games Left: {terminal_games_left}", Fore.GREEN)
 
         except requests.exceptions.RequestException as e:
             self.log(f"\u274C Failed to fetch or play the game: {e}", Fore.RED)
-            self.log(f"Response: {getattr(response, 'text', 'No response text available')}", Fore.YELLOW)
         except Exception as e:
             self.log(f"\u274C Unexpected error: {e}", Fore.RED)
+
 
 if __name__ == "__main__":
     ter = terminal()
@@ -370,22 +489,36 @@ if __name__ == "__main__":
     config = ter.load_config()
 
     if max_index == 0:
-        ter.log("❌ [ERROR] Query list is empty. Please check your configuration.", Fore.RED)
+        ter.log(
+            "❌ [ERROR] Query list is empty. Please check your configuration.", Fore.RED
+        )
         exit()
 
-    ter.log("🎉 [LIVEXORDS] === Welcome to Terminal Station Automation === [LIVEXORDS]", Fore.YELLOW)
+    ter.log(
+        "🎉 [LIVEXORDS] === Welcome to Terminal Station Automation === [LIVEXORDS]",
+        Fore.YELLOW,
+    )
     ter.log(f"📂 Loaded {max_index} accounts from query list.", Fore.YELLOW)
 
     while True:
         current_account = ter.query_list[index]
-        display_account = current_account[:10] + "..." if len(current_account) > 10 else current_account
+        display_account = (
+            current_account[:10] + "..."
+            if len(current_account) > 10
+            else current_account
+        )
 
-        ter.log(f"👤 [ACCOUNT] Processing account {index + 1}/{max_index}: {display_account}", Fore.YELLOW)
+        ter.log(
+            f"👤 [ACCOUNT] Processing account {index + 1}/{max_index}: {display_account}",
+            Fore.YELLOW,
+        )
 
         try:
             ter.login(index)
         except Exception as e:
-            ter.log(f"❌ [ERROR] Failed to log in with account {index + 1}: {e}", Fore.RED)
+            ter.log(
+                f"❌ [ERROR] Failed to log in with account {index + 1}: {e}", Fore.RED
+            )
             continue
 
         ter.log("🛠️ Starting task execution...")
@@ -397,7 +530,10 @@ if __name__ == "__main__":
 
         for task_key, task_name in tasks.items():
             task_status = config.get(task_key, False)
-            ter.log(f"[CONFIG] {task_name}: {'✅ Enabled' if task_status else '❌ Disabled'}", Fore.YELLOW if task_status else Fore.RED)
+            ter.log(
+                f"[CONFIG] {task_name}: {'✅ Enabled' if task_status else '❌ Disabled'}",
+                Fore.YELLOW if task_status else Fore.RED,
+            )
 
             if task_status:
                 if hasattr(ter, task_key):
@@ -405,16 +541,25 @@ if __name__ == "__main__":
                         ter.log(f"🔄 Executing {task_name}...")
                         getattr(ter, task_key)()
                     except Exception as e:
-                        ter.log(f"❌ [ERROR] Failed to execute {task_name}: {e}", Fore.RED)
+                        ter.log(
+                            f"❌ [ERROR] Failed to execute {task_name}: {e}", Fore.RED
+                        )
                 else:
-                    ter.log(f"❌ [ERROR] Task {task_name} not found in terminal instance.", Fore.RED)
+                    ter.log(
+                        f"❌ [ERROR] Task {task_name} not found in terminal instance.",
+                        Fore.RED,
+                    )
 
         if index == max_index - 1:
             ter.log("🔁 All accounts processed. Restarting loop.")
-            ter.log(f"⏳ Sleeping for {config.get('delay_loop', 30)} seconds before restarting.")
+            ter.log(
+                f"⏳ Sleeping for {config.get('delay_loop', 30)} seconds before restarting."
+            )
             time.sleep(config.get("delay_loop", 30))
             index = 0
         else:
-            ter.log(f"➡️ Switching to the next account in {config.get('delay_account_switch', 10)} seconds.")
+            ter.log(
+                f"➡️ Switching to the next account in {config.get('delay_account_switch', 10)} seconds."
+            )
             time.sleep(config.get("delay_account_switch", 10))
             index += 1
